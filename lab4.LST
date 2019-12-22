@@ -1,0 +1,214 @@
+A51 MACRO ASSEMBLER  LAB4                                                                 12/13/2019 16:13:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN lab4.OBJ
+ASSEMBLER INVOKED BY: E:\51\C51\BIN\A51.EXE lab4.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H       ;≥Ã–Ú¥”¥Àµÿ÷∑ø™ º‘À––
+  0010                 2         S1  EQU 10H    
+  0011                 3             S2  EQU 11H    
+  0016                 4             FLAG EQU 16H  
+0000 020030            5             LJMP    MAIN         
+000B                   6             ORG 000BH  
+000B C0E0              7             PUSH ACC
+000D C0D0              8             PUSH PSW
+000F 015A              9         AJMP TIME1S  
+001B                  10         ORG 001BH    
+001B C0E0             11             PUSH ACC
+001D C0D0             12             PUSH PSW
+001F 01AE             13             AJMP TIMEY  
+0030                  14             ORG     030H        
+0030                  15     MAIN:
+0030 751200           16             MOV    12H,#00H  
+0033 751300           17             MOV    13H,#00H
+0036 751400           18             MOV    14H,#00H
+0039 751009           19             MOV    S1,#09H
+003C 751102           20             MOV    S2,#02H
+003F 751600           21             MOV    FLAG,#00H      
+0042 758901           22             MOV TMOD,#00000001B  
+0045 758C3C           23             MOV TH0,#3CH 
+0048 758AB0           24             MOV TL0,#0B0H  
+004B 759000           25             MOV P1,#00H
+004E D2AF             26             SETB EA  
+0050 D2A9             27             SETB ET0  
+0052 D28C             28             SETB TR0  
+0054                  29     LOOP: 
+0054 11F3             30             ACALL DISPLAY  
+0056 3123             31             ACALL RGB  
+0058 0154             32             AJMP LOOP  
+005A                  33     TIME1S:
+005A 0512             34          INC 12H   
+005C E512             35              MOV A,12H
+005E B41442           36              CJNE A,#20,T_RET  
+0061 1510             37              DEC S1  
+0063                  38     TIME10S:
+0063 751200           39          MOV 12H,#00H  
+0066 0513             40              INC 13H
+0068 E513             41              MOV A,13H
+006A B40A36           42              CJNE A,#10,T_RET  
+006D 751009           43              MOV S1,#09H  
+0070 1511             44              DEC S2   
+0072                  45     TIME30S:
+0072 751300           46          MOV 13H,#00H  
+0075 0514             47              INC 14H
+0077 E514             48              MOV A,14H
+0079 B40327           49              CJNE A,#3,T_RET  
+007C 751400           50              MOV 14H,#00H 
+007F 751102           51              MOV S2,#02H
+0082 0516             52              INC FLAG    
+0084 751200           53              MOV 12H,#00H
+0087 751300           54              MOV 13H,#00H 
+008A 758910           55              MOV TMOD,#10H
+008D 758D3C           56          MOV TH1,#3CH 
+0090 758BB0           57              MOV TL1,#0B0H
+0093 D2AF             58          SETB EA
+A51 MACRO ASSEMBLER  LAB4                                                                 12/13/2019 16:13:27 PAGE     2
+
+0095 D2AB             59          SETB ET1
+0097 D28E             60          SETB TR1 
+0099 C2A9             61              CLR ET0
+009B C28C             62              CLR TR0 
+009D 751005           63              MOV S1,#05H
+00A0 751100           64              MOV S2,#00H  
+00A3                  65     T_RET:
+00A3 758C3C           66             MOV TH0,#3CH
+00A6 758AB0           67             MOV TL0,#0B0H  
+00A9 D0D0             68             POP PSW
+00AB D0E0             69             POP ACC
+00AD 32               70             RETI                     
+00AE                  71     TIMEY:
+00AE 0512             72          INC 12H
+00B0 E512             73              MOV A,12H
+00B2 B41433           74              CJNE A,#20,TY_RET
+00B5 1510             75              DEC S1                     
+00B7                  76     TIMEY5S:
+00B7 751200           77         MOV 12H,#00H
+00BA 0513             78             INC 13H
+00BC E513             79             MOV A,13H
+00BE B40627           80             CJNE A,#6,TY_RET
+00C1 0516             81             INC FLAG
+00C3 758901           82             MOV TMOD,#00000001B  
+00C6 758C3C           83             MOV TH0,#3CH 
+00C9 758AB0           84             MOV TL0,#0B0H  
+00CC D2AF             85             SETB EA  
+00CE D2A9             86             SETB ET0  
+00D0 D28C             87             SETB TR0  
+00D2 C2AB             88             CLR ET1
+00D4 C28E             89             CLR TR1
+00D6 758C3C           90             MOV TH0,#3CH 
+00D9 758AB0           91             MOV TL0,#0B0H
+00DC 751009           92             MOV    S1,#09H
+00DF 751102           93             MOV    S2,#02H
+00E2 751200           94             MOV    12H,#00H
+00E5 751300           95             MOV     13H,#00H    
+00E8                  96     TY_RET:
+00E8 758D3C           97             MOV TH1,#3CH
+00EB 758BB0           98             MOV TL1,#0B0H ;÷ÿ÷√∂® ±≥£ 
+00EE D0D0             99             POP PSW
+00F0 D0E0            100             POP ACC
+00F2 32              101             RETI
+00F3                 102     DISPLAY:
+00F3 900400          103             MOV DPTR,#TAB
+00F6 75907F          104             MOV P1,#07FH
+00F9 E510            105             MOV A,S1
+00FB 93              106             MOVC A,@A+DPTR
+00FC F580            107             MOV P0,A
+00FE 758000          108             MOV P0,#00H
+0101 7590BF          109             MOV P1,#0BFH
+0104 E511            110             MOV      A,S2
+0106 93              111             MOVC A,@A+DPTR
+0107 F580            112             MOV P0,A
+0109 758000          113             MOV P0,#00H
+010C 7590F7          114             MOV P1,#0F7H
+010F E510            115             MOV A,S1
+0111 93              116             MOVC A,@A+DPTR
+0112 F580            117             MOV P0,A
+0114 758000          118             MOV P0,#00H
+0117 7590FB          119             MOV P1,#0FBH
+011A E511            120             MOV A,S2
+011C 93              121             MOVC A,@A+DPTR
+011D F580            122             MOV P0,A
+011F 758000          123             MOV P0,#00H      
+0122 22              124             RET
+A51 MACRO ASSEMBLER  LAB4                                                                 12/13/2019 16:13:27 PAGE     3
+
+0123                 125     RGB:
+0123 E516            126             MOV A,FLAG
+0125 900410          127             MOV DPTR,#RGBTAB
+0128 93              128             MOVC A,@A+DPTR
+0129 F5A0            129             MOV P2,A
+012B E516            130             MOV A,FLAG
+012D 900414          131             MOV DPTR,#YTAB
+0130 93              132             MOVC A,@A+DPTR
+0131 F5B0            133             MOV P3,A
+0133 E516            134             MOV A,FLAG                       
+0135 B4040D          135             CJNE A,#04H,RESET   
+0138 C2AB            136             CLR ET1
+013A C28E            137             CLR TR1
+013C C28C            138             CLR TR0
+013E C2A9            139             CLR ET0
+0140 C2AF            140             CLR EA                             
+0142 020030          141             LJMP MAIN
+0145                 142     RESET:
+0145 22              143             RET
+0400                 144     ORG     400H
+                     145     ;∆ﬂ∂Œ ¬Îœ‘π‹œ‘ æ ◊÷±‡¬Î(∂‘”¶0~F)
+0400 3F065B4F        146     TAB: DB 3Fh,06h,5Bh,4Fh,66h,6Dh,7Dh,07h,7Fh,6Fh,77h,7Ch,39h,5Eh,79h,71h                 ;π≤
+                             “ıº´∆ﬂ∂Œ ¬Îœ‘π‹
+0404 666D7D07                
+0408 7F6F777C                
+040C 395E7971                
+0410 7AB6CDB6        147     RGBTAB: DB      7AH,0B6H,0CDH,0B6H         
+0414 01020202        148     YTAB: DB 01H,02H,02H,02H                    
+                     149     END
+A51 MACRO ASSEMBLER  LAB4                                                                 12/13/2019 16:13:27 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+DISPLAY. . . . . .  C ADDR   00F3H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+FLAG . . . . . . .  N NUMB   0016H   A   
+LOOP . . . . . . .  C ADDR   0054H   A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RESET. . . . . . .  C ADDR   0145H   A   
+RGB. . . . . . . .  C ADDR   0123H   A   
+RGBTAB . . . . . .  C ADDR   0410H   A   
+S1 . . . . . . . .  N NUMB   0010H   A   
+S2 . . . . . . . .  N NUMB   0011H   A   
+TAB. . . . . . . .  C ADDR   0400H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TIME10S. . . . . .  C ADDR   0063H   A   
+TIME1S . . . . . .  C ADDR   005AH   A   
+TIME30S. . . . . .  C ADDR   0072H   A   
+TIMEY. . . . . . .  C ADDR   00AEH   A   
+TIMEY5S. . . . . .  C ADDR   00B7H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TY_RET . . . . . .  C ADDR   00E8H   A   
+T_RET. . . . . . .  C ADDR   00A3H   A   
+YTAB . . . . . . .  C ADDR   0414H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
